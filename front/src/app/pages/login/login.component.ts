@@ -1,15 +1,25 @@
+// login.component.ts
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  formData: any = {};
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  login() {
+    this.http.post('http://localhost:8080/api/auth/login', this.formData)
+      .subscribe((response) => {
+        console.log('Connexion réussie !', response);
+      }, (error) => {
+        console.error('Erreur lors de la connexion :', error);
+      });
   }
-
 }
