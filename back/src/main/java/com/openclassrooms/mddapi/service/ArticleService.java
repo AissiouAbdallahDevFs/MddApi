@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 
@@ -103,6 +104,10 @@ public class ArticleService {
         }
     }
 
+
+    public List<Article> getArticlesByTheme(Themes theme) {
+        return articleRepository.findByTheme(theme);
+    }
     
 
 }
