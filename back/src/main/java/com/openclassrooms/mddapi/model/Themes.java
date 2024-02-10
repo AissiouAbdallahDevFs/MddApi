@@ -2,7 +2,11 @@ package com.openclassrooms.mddapi.model;
 
 
 
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 
@@ -13,15 +17,22 @@ public class Themes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @NotNull
     private String title;
-
+    
+    @NotNull
     private String description;
 
-    private String created_at;
+  	@Column(name = "created_at")
+	private LocalDateTime createdAt;
 
-    private String updated_at;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+
+
+    
     
     
 

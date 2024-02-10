@@ -7,13 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.HashMap;
 import java.util.Optional;
 
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.model.Themes;
 import com.openclassrooms.mddapi.service.ArticleService;
+import com.openclassrooms.mddapi.service.ThemesService;
 import com.openclassrooms.mddapi.service.UserService;
 
 import java.util.Map;
@@ -29,6 +32,9 @@ public class ArticleController {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ThemesService themesService;
 
     // get all articles
     @GetMapping("/articles")
@@ -58,18 +64,24 @@ public class ArticleController {
     @ApiOperation(value = "Create a new Article", notes = "Creates a new Article.")
     public Article saveRentals(@RequestHeader("Authorization") String authorizationHeader,
                                @RequestParam("title") String title,
-                               @RequestParam("description") String description){
+                               @RequestParam("description") String description,
+                               @RequestParam("theme") String theme){
         String token = authorizationHeader.substring("Bearer ".length()).trim();
         User user = userService.getUserByToken(token);
-
+        Long themeId = Long.parseLong(theme);
+        System.err.println("theme: " + themeId);
+        Themes themeIdObject = themesService.getThemesById(themeId);                       
         Article article = new Article();
         article.setTitle(title);
         article.setDescription(description);
         article.setAuthor(user);
+        article.setTheme(themeIdObject);
         Article savedRentals = articleService.saveArticles(article);
-                                
-
-        return savedRentals;
+        if (savedRentals != null) {
+            return new ResponseEntity<>(savedRentals, HttpStatus.OK).getBody();
+        } else {
+            return null;
+        }
     }
 }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.Serializable;
 
 import com.openclassrooms.mddapi.model.Article;
+import com.openclassrooms.mddapi.model.Themes;
 import  com.openclassrooms.mddapi.repository.*;
 
 import java.nio.file.Files;
@@ -22,6 +23,10 @@ public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private ThemesService themeService;
+
 
 
     
