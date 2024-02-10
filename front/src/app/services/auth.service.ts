@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
-  private token: string | null = null;
+  private token: string | null = localStorage.getItem('token');
 
   constructor(private http: HttpClient) {}
 
@@ -23,16 +23,17 @@ export class AuthService {
     return this.token;
   }
 
-getHeaders(): HttpHeaders {
+  getHeaders(): HttpHeaders {
     const headersConfig: { [key: string]: string } = {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
     };
 
     if (this.token) {
-        headersConfig['Authorization'] = `Bearer ${this.token}`;
+      headersConfig['Authorization'] = `Bearer ${this.token}`;
     }
 
     return new HttpHeaders(headersConfig);
+  }
 }
-}
+
