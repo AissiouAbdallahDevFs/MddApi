@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+.env
+/back/.env
+!**/bin/src/test/**/target/classes/
+!**/back/src/test/**/target/classes/
