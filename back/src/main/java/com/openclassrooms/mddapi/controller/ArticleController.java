@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -32,6 +30,7 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
+    // get all articles
     @GetMapping("/Articles")
     @ApiOperation(value = "Get all articles", notes = "Returns a list of all Articles.")
     public Map<String, List<Article>> getArticle() {
@@ -41,7 +40,7 @@ public class ArticleController {
         return response;
     }
     
-
+    // get article by id
     @GetMapping("Articles/{id}")
     @ApiOperation(value = "Get Article by ID", notes = "Returns a Article by its ID.")
     public ResponseEntity<Article> getRentalById(@PathVariable Long id) {
@@ -54,6 +53,7 @@ public class ArticleController {
         }
     }
 
+    // save article
     @PostMapping(value = "/Articles")
     @ApiOperation(value = "Create a new Article", notes = "Creates a new Article.")
     public Article saveRentals(@RequestHeader("Authorization") String authorizationHeader,

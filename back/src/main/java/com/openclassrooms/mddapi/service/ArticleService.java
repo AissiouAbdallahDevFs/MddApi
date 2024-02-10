@@ -75,6 +75,8 @@ public class ArticleService {
             existingArticles.setTitle(updatedRentals.getTitle());
             existingArticles.setDescription(updatedRentals.getDescription());
             existingArticles.setUpdatedAt(updatedRentals.getUpdatedAt());
+            existingArticles.setAuthor(updatedRentals.getAuthor());
+            existingArticles.setTheme(updatedRentals.getTheme());
             Article updatedRecord = articleRepository.save(existingArticles);
             return updatedRecord;
         } else {

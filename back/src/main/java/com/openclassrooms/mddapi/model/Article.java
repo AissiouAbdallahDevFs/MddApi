@@ -27,6 +27,10 @@ public class Article {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "theme_id", referencedColumnName = "id")
+	private Themes theme;
+
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
