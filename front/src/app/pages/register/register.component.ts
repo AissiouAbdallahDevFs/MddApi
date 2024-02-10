@@ -1,3 +1,4 @@
+// register.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  formData: any = {}; 
+  formData: any = {}; // Un objet pour stocker les données du formulaire
 
   constructor(private http: HttpClient) { }
 
@@ -15,6 +16,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    console.log('formData:', this.formData);
     this.http.post('http://localhost:8080/api/auth/register', this.formData)
       .subscribe((response) => {
         console.log('Inscription réussie !', response);

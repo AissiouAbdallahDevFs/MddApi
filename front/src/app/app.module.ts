@@ -8,6 +8,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent],
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatButtonModule,
     HttpClientModule,
+    FormsModule ,
   ],
   providers: [],
   bootstrap: [AppComponent],

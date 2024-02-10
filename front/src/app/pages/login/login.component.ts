@@ -8,13 +8,14 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  formData: any = {};
+  formData: any = {}; 
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {}
 
   login() {
+    console.log('formData:', this.formData);
     this.http.post('http://localhost:8080/api/auth/login', this.formData)
       .subscribe((response) => {
         console.log('Connexion réussie !', response);
