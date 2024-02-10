@@ -35,19 +35,18 @@ public class ArticleService {
     }
 
 
-    public Iterable<Article> getRentals() {
+    public Iterable<Article> getArticle() {
         Iterable<Article> article = articleRepository.findAll();
         return article;
     }
 
-    public Optional<Article> getRentalById(Long id) {
+    public Optional<Article> getArticleById(Long id) {
         return articleRepository.findById(id);
     }
     
-   public Article saveRentals(Article rentals, MultipartFile picture) {
-        rentals.setCreatedAt(java.time.LocalDateTime.now());
-        Article savedRentals = articleRepository.save(rentals);
-        uploadFileToFolder(picture);
+   public Article saveArticles(Article articles) {
+        articles.setCreatedAt(java.time.LocalDateTime.now());
+        Article savedRentals = articleRepository.save(articles);
         return savedRentals;
     }
 
@@ -68,7 +67,7 @@ public class ArticleService {
         }
     }
     
-    public Article updateRentals(Article updatedRentals) {
+    public Article updateArticles(Article updatedRentals) {
        
         Article existingArticles= articleRepository.findById(updatedRentals.getId()).orElse(null);
         
@@ -84,7 +83,7 @@ public class ArticleService {
     }
     
 
-    public void deleteRentals(Long articleId) {
+    public void deleteArticles(Long articleId) {
        
         Article existingArticles = articleRepository.findById(articleId).orElse(null);
         
