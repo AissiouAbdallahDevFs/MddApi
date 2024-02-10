@@ -44,3 +44,4 @@ Thumbs.db
 /back/.env
 !**/bin/src/test/**/target/classes/
 !**/back/src/test/**/target/classes/
+back/.env
