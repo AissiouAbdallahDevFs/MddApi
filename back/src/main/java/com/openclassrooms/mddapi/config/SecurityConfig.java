@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(AUTH_WHITELIST).permitAll()
                     .anyRequest().authenticated().and()
-                .exceptionHandling()
+                    .exceptionHandling()
                     .authenticationEntryPoint(unauthorizedHandler());
 
             http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
