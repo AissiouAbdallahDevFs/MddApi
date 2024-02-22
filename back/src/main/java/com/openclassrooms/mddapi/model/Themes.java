@@ -25,11 +25,16 @@ public class Themes {
     @NotNull
     private String description;
 
-  	@Column(name = "created_at")
-	private LocalDateTime createdAt;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private User author;
+    
 
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+  	@Column(name = "created_at")
+	  private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
 
     

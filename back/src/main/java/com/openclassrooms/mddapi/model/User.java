@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,6 +25,9 @@ public class User {
 
 	@NotNull
 	private String password;
+
+	@OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+	private List<Themes> themes;
 
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
