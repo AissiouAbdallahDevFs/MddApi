@@ -26,8 +26,9 @@ public class User {
 	@NotNull
 	private String password;
 
-	@OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-	private List<Themes> themes;
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "theme_id")
+	private Themes theme;
 
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;

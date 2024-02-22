@@ -1,5 +1,5 @@
 <div class="container">
-    <button  mat-raised-button color="primary" class="putArticleBtn" >Créer un article </button>
+    <button  mat-raised-button color="primary" class="putArticleBtn" (click)="redirectToCreateArticle()">Créer un article </button>
     <div class="article-container">
         <div class="row" *ngFor="let index of indexArray">
           <div class="column" *ngFor="let article of articles | slice:(index * 2):(index * 2 + 2)">

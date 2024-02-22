@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import java.util.Date;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -142,10 +143,15 @@ public class UserService {
 
     // suscribe user to theme
     public User suscribeToTheme(Long userId, Long themeId) {
+        System.err.println("themeId: " + themeId);
         User existingUser = userRepository.findById(userId).orElse(null);
         Themes existingTheme = themeRepository.findById(themeId).orElse(null);
-        existingUser.getThemes().add(existingTheme);
+        System.err.println("existingTheme: " + existingTheme);
+        if (existingUser != null && existingTheme != null) {
+            existingUser.setTheme(existingTheme);
+        }
         User updatedRecord = userRepository.save(existingUser);
+        System.err.println("updatedRecord: " + updatedRecord);
         return updatedRecord;
     }
 }

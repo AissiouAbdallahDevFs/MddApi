@@ -1,6 +1,8 @@
 // article-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-page',
@@ -11,10 +13,14 @@ export class ArticlePageComponent implements OnInit {
   articles: any[] = [];
   indexArray: number[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(@Inject(HttpClient) private http: HttpClient, @Inject(Router) private router: Router) {}
 
   ngOnInit(): void {
     this.fetchArticles();
+  }
+  
+  redirectToCreateArticle() {
+    this.router.navigate(['/article/add']);
   }
 
   fetchArticles(): void {

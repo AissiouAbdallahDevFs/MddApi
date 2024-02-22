@@ -25,10 +25,8 @@ public class Themes {
     @NotNull
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
-    private User author;
-    
+
+
 
   	@Column(name = "created_at")
 	  private LocalDateTime createdAt;

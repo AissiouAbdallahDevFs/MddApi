@@ -95,10 +95,14 @@ public class UserController {
     }
 
     // suscribe to a theme
-    @PostMapping("/user/{userId}/theme/{themeId}")
+    @PostMapping("/auth/subscribe/{themeId}")
     @ApiOperation(value = "Subscribe to a theme", notes = "Subscribe to a theme.")
-    public ResponseEntity<User> suscribeToTheme(@PathVariable Long userId, @PathVariable Long themeId) {
-        User user = userService.suscribeToTheme(userId, themeId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader , @PathVariable Long themeId) {
+        System.err.println("themeId: " + themeId);
+        String token = authorizationHeader.substring(7);
+        User user = userService.getUserByToken(token);
+        User updatedUser = userService.suscribeToTheme(user.getId(), themeId);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        
     }
 }
