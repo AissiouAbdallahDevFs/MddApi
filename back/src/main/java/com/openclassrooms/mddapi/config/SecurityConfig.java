@@ -62,9 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setLocation(new FileSystemResource(".env"));
-        return configurer;
+        PropertySourcesPlaceholderConfigurer properties = new PropertySourcesPlaceholderConfigurer();
+        properties.setLocation(new FileSystemResource(".env"));
+        properties.setIgnoreResourceNotFound(false);
+        return properties;
     }
  
 }
