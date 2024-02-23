@@ -140,15 +140,31 @@ public class UserService {
 
     // suscribe user to theme
     public User suscribeToTheme(Long userId, Long themeId) {
-        System.err.println("themeId: " + themeId);
         User existingUser = userRepository.findById(userId).orElse(null);
         Themes existingTheme = themeRepository.findById(themeId).orElse(null);
-        System.err.println("existingTheme: " + existingTheme);
         if (existingUser != null && existingTheme != null) {
             existingUser.setTheme(existingTheme);
         }
         User updatedRecord = userRepository.save(existingUser);
-        System.err.println("updatedRecord: " + updatedRecord);
         return updatedRecord;
+    }
+    // unsubscribe user from theme
+    public User unsuscribeToTheme(Long userId, Long themeId) {
+        User existingUser = userRepository.findById(userId).orElse(null);
+        Themes existingTheme = themeRepository.findById(themeId).orElse(null);
+        if (existingUser != null && existingTheme != null) {
+            existingUser.setTheme(null);
+        }
+        User updatedRecord = userRepository.save(existingUser);
+        return updatedRecord;
+    }
+    // list of all themes for user
+    public Themes getThemeByUser(Long userId) {
+        User existingUser = userRepository.findById(userId).orElse(null);
+        if (existingUser != null) {
+            return existingUser.getTheme();
+        } else {
+            throw new NotFoundException("Enregistrement introuvable");
+        }
     }
 }

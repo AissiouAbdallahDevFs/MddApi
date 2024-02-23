@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
+  isMenuOpen: boolean = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
-
 }

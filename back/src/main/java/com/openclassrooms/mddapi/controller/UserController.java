@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import com.openclassrooms.mddapi.dto.UserLoginRequest;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.model.Themes;
 import com.openclassrooms.mddapi.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -94,6 +95,19 @@ public class UserController {
         }
     }
 
+    // update email and username
+    @PutMapping("/auth/me")
+    @ApiOperation(value = "Update email and username", notes = "Updates the email and username of the current user.")
+    public ResponseEntity<User> updateUser(@RequestHeader("Authorization") String authorizationHeader, @RequestBody User updatedUser) {
+        String token = authorizationHeader.substring(7);
+        String email = userService.getEmailFromToken(token);
+        User user = userService.getUserByEmail(email).get();
+        user.setEmail(updatedUser.getEmail());
+        user.setUsername(updatedUser.getUsername());
+        User updatedRecord = userService.updateUser(user);
+        return new ResponseEntity<>(updatedRecord, HttpStatus.OK);
+    }
+
     // suscribe to a theme
     @PostMapping("/auth/subscribe/{themeId}")
     @ApiOperation(value = "Subscribe to a theme", notes = "Subscribe to a theme.")
@@ -104,5 +118,24 @@ public class UserController {
         User updatedUser = userService.suscribeToTheme(user.getId(), themeId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         
+    }
+    // unsubscribe from a theme
+    @DeleteMapping("/auth/unsubscribe/{themeId}")
+    @ApiOperation(value = "Unsubscribe from a theme", notes = "Unsubscribe from a theme.")
+    public ResponseEntity<User> unsubscribeFromTheme(@RequestHeader("Authorization") String authorizationHeader , @PathVariable Long themeId) {
+        String token = authorizationHeader.substring(7);
+        User user = userService.getUserByToken(token);
+        User updatedUser = userService.unsuscribeToTheme(user.getId(), themeId);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+    // list of all themes suscribed by user
+    @GetMapping("/auth/themes")
+    @ApiOperation(value = "Get themes suscribed by user", notes = "Returns a list of themes suscribed by user.")
+    public ResponseEntity<Themes> getThemesSuscribedByUser(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring(7);
+        User user = userService.getUserByToken(token);
+        Long userId = user.getId();
+        Themes themes = userService.getThemeByUser(userId);
+        return new ResponseEntity<>(themes, HttpStatus.OK);
     }
 }
