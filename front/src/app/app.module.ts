@@ -14,9 +14,10 @@ import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CreateArticleComponent } from './pages/create-article/create-article.component';
+import { ThemesPageComponent } from './pages/themes-page/themes-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, ArticlePageComponent, NavbarComponent, CreateArticleComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, ArticlePageComponent, NavbarComponent, CreateArticleComponent, ThemesPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
