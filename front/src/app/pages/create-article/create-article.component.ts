@@ -1,9 +1,6 @@
-
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
-
-
 
 @Component({
   selector: 'app-create-article',
@@ -11,37 +8,55 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./create-article.component.scss']
 })
 export class CreateArticleComponent implements OnInit {
-  
-    constructor(@Inject(HttpClient) private http: HttpClient) { }
+  articleForm: FormGroup;
+  themes: any[] = [];
 
-    themes: any[] = [];
-    selectedTheme: number = 0;
-    article = {
-      title: '',
-      content: ''
-    };
-  
-    ngOnInit(): void {
-      this.fetchThemes();
-    }
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+    this.articleForm = this.formBuilder.group({
+      theme: ['', Validators.required],
+      title: ['', Validators.required],
+      description: ['']
+    });
+  }
 
-    fetchThemes() {
-      this.http.get<any[]>('http://localhost:8080/api/themes')
-        .subscribe((themes: any[]) => {
-          this.themes = themes;
-        });
-    }
+  ngOnInit(): void {
+    this.fetchThemes();
+  }
 
+  fetchThemes() {
+    this.http.get<any>('http://localhost:8080/api/themes')
+      .subscribe(
+        (response: any) => {
+          this.themes = response.themes; 
+        },
+        (error: any) => {
+          console.error('Erreur lors de la récupération des thèmes:', error);
+        }
+      );
+  }
 
-    onSubmit() {
-      this.http.post<any>('http://localhost:8080/api/articles', this.article)
+  onSubmit() {
+    if (this.articleForm.valid) {
+      console.log('title', this.articleForm.get('title')?.value);
+      console.log('description', this.articleForm.get('description')?.value);
+      console.log('theme', this.articleForm.get('theme')?.value);
+      const articleData = {
+        title: this.articleForm.get('title')?.value,
+        description: this.articleForm.get('description')?.value,
+        theme: this.articleForm.get('theme')?.value
+      };
+
+      this.http.post<any>('http://localhost:8080/api/articles', articleData)
         .subscribe(
-          (response: any) => { 
+          (response: any) => {
             console.log('Article créé avec succès:', response);
           },
-          (error: any) => { 
+          (error: any) => {
             console.error('Erreur lors de la création de l\'article:', error);
           }
-        );
+      );
+    } else {
+      console.log('Le formulaire est invalide');
     }
+  }
 }

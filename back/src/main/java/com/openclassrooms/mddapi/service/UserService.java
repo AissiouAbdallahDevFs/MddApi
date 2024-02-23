@@ -1,14 +1,11 @@
 package com.openclassrooms.mddapi.service;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
 import com.openclassrooms.mddapi.repository.ThemesRepository;

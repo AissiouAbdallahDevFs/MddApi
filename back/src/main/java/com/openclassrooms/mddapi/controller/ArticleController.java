@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Optional;
 
+import com.openclassrooms.mddapi.dto.ArticleRequestDto;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
@@ -59,23 +60,23 @@ public class ArticleController {
         }
     }
 
+
     // save article
     @PostMapping(value = "/articles")
     @ApiOperation(value = "Create a new Article", notes = "Creates a new Article.")
     public Article saveRentals(@RequestHeader("Authorization") String authorizationHeader,
-                               @RequestParam("title") String title,
-                               @RequestParam("description") String description,
-                               @RequestParam("theme") String theme){
+                                @RequestBody ArticleRequestDto articleDto) {
         String token = authorizationHeader.substring("Bearer ".length()).trim();
         User user = userService.getUserByToken(token);
-        Long themeId = Long.parseLong(theme);
+        Long themeId = articleDto.getTheme();
         System.err.println("theme: " + themeId);
         Themes themeIdObject = themesService.getThemesById(themeId);                       
-        Article article = new Article();
-        article.setTitle(title);
-        article.setDescription(description);
+        Article article = new Article() ;
+        article.setTitle(articleDto.getTitle());
+        article.setDescription(articleDto.getDescription());
         article.setAuthor(user);
         article.setTheme(themeIdObject);
+        System.err.println("article: " + article);
         Article savedRentals = articleService.saveArticles(article);
         if (savedRentals != null) {
             return new ResponseEntity<>(savedRentals, HttpStatus.OK).getBody();
@@ -83,7 +84,6 @@ public class ArticleController {
             return null;
         }
     }
-
     // find article by theme
     @GetMapping("/articles/theme/{themeId}")
     public List<Article> getArticlesByTheme(@PathVariable Long themeId) {

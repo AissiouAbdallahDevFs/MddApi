@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'article', component: ArticlePageComponent },
-  { path: 'article/add', component: CreateArticleComponent }, 
+  { path: 'article/add', component: CreateArticleComponent },
   { path: '**', redirectTo: '' },
 ];
 

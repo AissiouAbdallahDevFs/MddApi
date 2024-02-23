@@ -40,8 +40,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-.env
-/back/.env
-!**/bin/src/test/**/target/classes/
-!**/back/src/test/**/target/classes/
-back/.env
