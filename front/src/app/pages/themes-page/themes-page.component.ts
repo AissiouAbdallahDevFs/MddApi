@@ -33,7 +33,6 @@ export class ThemesPageComponent implements OnInit {
   subscribeToTheme(themeId: number) {
     this.http.post<any>('http://localhost:8080/api/auth/subscribe/' + themeId, {})
       .subscribe(response => {
-        // Traiter la réponse de l'API si nécessaire
         console.log('Souscrit avec succès au thème avec l\'ID', themeId);
       });
   }

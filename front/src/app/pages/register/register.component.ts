@@ -1,4 +1,3 @@
-// register.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -9,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  formData: any = {}; // Un objet pour stocker les données du formulaire
+  formData: any = {}; 
 
   constructor(private http: HttpClient,private router: Router) { }
 

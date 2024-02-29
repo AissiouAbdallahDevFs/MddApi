@@ -3,7 +3,7 @@
   <div class="article-container">
       <div class="row">
           <div class="column" *ngFor="let article of articles">
-              <div class="article">
+              <div class="article" (click)="redirectToArticleDetail(article.id)">
                   <h2>{{ article.title }}</h2>
                   <p class="description">{{ article.description }}</p>
                   <p>Auteur: {{ article.author.username }}</p>

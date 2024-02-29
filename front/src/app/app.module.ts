@@ -20,9 +20,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { ArticleIdPageComponent } from './pages/article-id-page/article-id-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, ArticlePageComponent, NavbarComponent, CreateArticleComponent, ThemesPageComponent, ProfilePageComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, ArticlePageComponent, NavbarComponent, CreateArticleComponent, ThemesPageComponent, ProfilePageComponent, ArticleIdPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

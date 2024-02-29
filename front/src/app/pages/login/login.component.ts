@@ -1,8 +1,6 @@
-// login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -16,18 +14,21 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  login() {
+ login() {
     this.http.post<any>('http://localhost:8080/api/auth/login', this.formData)
-      .subscribe((response) => {
-        if (response && response.token) {
-          console.log('Connexion réussie ! Token:', response.token);
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/article']);
-        } else {
-          console.error('Erreur lors de la connexion :', response);
+      .subscribe(
+        (response) => {
+          if (response && response.token) {
+            console.log('Connexion réussie ! Token:', response.token);
+            localStorage.setItem('token', response.token);
+            this.router.navigate(['/article']);
+          } else {
+            console.error('Erreur lors de la connexion :', response);
+          }
+        }, 
+        (error) => {
+          console.error('Erreur lors de la connexion :', error);
         }
-      }, (error) => {
-        console.error('Erreur lors de la connexion :', error);
-      });
+      );
   }
 }

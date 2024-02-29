@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import {AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -12,7 +13,7 @@ export class ProfilePageComponent implements OnInit {
   userThemes: any[] = []; 
   updatedUser: any = { username: '', email: '' }; 
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private authService:AuthService) { }
 
   ngOnInit(): void {
     this.http.get('http://localhost:8080/api/auth/me').subscribe((data: any) => {
@@ -29,8 +30,8 @@ export class ProfilePageComponent implements OnInit {
     });
   }
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigateByUrl('/login');
+    this.authService.logout();
+    this.router.navigateByUrl('/');
   }
   UnsubscribeToTheme(themeId: number) {
     this.http.delete<any>('http://localhost:8080/api/auth/subscribe/' + themeId, {})

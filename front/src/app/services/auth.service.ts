@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +12,27 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials);
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials)
+      .pipe(
+        map(response => {
+          if (response && response.token) {
+            this.setToken(response.token);
+          }
+          return response;
+        })
+      );
   }
 
   setToken(token: string | null): void {
     this.token = token;
+    localStorage.setItem('token', token || '');
   }
 
   getToken(): string | null {
     return this.token;
+  }
+  logout(): void {
+    localStorage.removeItem('token');
   }
 
   getHeaders(): HttpHeaders {

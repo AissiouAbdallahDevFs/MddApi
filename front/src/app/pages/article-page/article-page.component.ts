@@ -1,4 +1,3 @@
-// article-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -12,12 +11,12 @@ export class ArticlePageComponent implements OnInit {
   articles: any[] = [];
   indexArray: number[] = [];
 
-  constructor( private http: HttpClient,  private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchArticles();
   }
-  
+
   redirectToCreateArticle() {
     this.router.navigate(['/article/add']);
   }
@@ -32,5 +31,9 @@ export class ArticlePageComponent implements OnInit {
       }, (error) => {
         console.error('Erreur lors de la récupération des articles :', error);
       });
+  }
+
+  redirectToArticleDetail(id: number): void {
+    this.router.navigate(['/article', id]);
   }
 }
