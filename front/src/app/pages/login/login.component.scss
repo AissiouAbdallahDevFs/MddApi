@@ -1,22 +1,22 @@
-/* styles.scss (ou votre fichier de style CSS) */
+
 
 .login-container {
     max-width: 300px;
     margin: auto;
     text-align: center;
-    display: flex; /* Utilisation de flexbox pour aligner les éléments */
-    flex-direction: column; /* Aligner les éléments verticalement */
-    align-items: center; /* Centrer horizontalement les éléments enfants */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
   }
   
   .form-group {
     margin-bottom: 20px;
-    width: 100%; /* Faire en sorte que les champs de saisie prennent toute la largeur */
+    width: 100%; 
   }
   
   label {
     display: block;
-    text-align: left; /* Aligner le texte du label à gauche */
+    text-align: left; 
   }
   
   input[type="email"],
@@ -42,31 +42,28 @@
   }
   
   img {
-    max-width: 100%; /* Faire en sorte que l'image ne dépasse pas la largeur du conteneur */
-    margin-bottom: 20px; /* Ajouter un espace en bas de l'image */
+    max-width: 100%; 
+    margin-bottom: 20px; 
   }
   
-
-/* Pour les écrans jusqu'à 600px de largeur */
 @media screen and (max-width: 600px) {
     .login-container {
-      width: 80%; /* Réduire la largeur du conteneur */
+      width: 80%;
     }
   
     input[type="email"],
     input[type="password"] {
-      width: 100%; /* Faire en sorte que les champs de saisie prennent toute la largeur */
+      width: 100%;
     }
   
     button {
-      width: 100%; /* Faire en sorte que le bouton prenne toute la largeur */
+      width: 100%; 
     }
   }
   
-  /* Pour les écrans de 601px à 1024px de largeur */
   @media screen and (min-width: 601px) and (max-width: 1024px) {
     .login-container {
-      width: 60%; /* Réduire la largeur du conteneur */
+      width: 60%; 
     }
   }
   

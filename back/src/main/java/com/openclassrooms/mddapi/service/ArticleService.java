@@ -40,39 +40,25 @@ public class ArticleService {
         }
     }
 
-
+    // get all article
     public Iterable<Article> getArticle() {
         Iterable<Article> article = articleRepository.findAll();
         return article;
     }
-
+    // get article by id
     public Optional<Article> getArticleById(Long id) {
         return articleRepository.findById(id);
     }
     
-   public Article saveArticles(Article articles) {
+    // save article
+    public Article saveArticles(Article articles) {
         articles.setCreatedAt(java.time.LocalDateTime.now());
         Article savedRentals = articleRepository.save(articles);
         return savedRentals;
     }
 
-    private void uploadFileToFolder(MultipartFile file) {
-        try {
-            String folderPath = "file/";
-            String originalFileName = file.getOriginalFilename();
-            
-            Path folder = Paths.get(folderPath);
-            if (!Files.exists(folder)) {
-                Files.createDirectories(folder);
-            }
-    
-            Path targetPath = folder.resolve(originalFileName);
-            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
+
+    // update article
     public Article updateArticles(Article updatedRentals) {
        
         Article existingArticles= articleRepository.findById(updatedRentals.getId()).orElse(null);
@@ -90,7 +76,7 @@ public class ArticleService {
         }
     }
     
-
+    // delete article
     public void deleteArticles(Long articleId) {
        
         Article existingArticles = articleRepository.findById(articleId).orElse(null);
@@ -104,7 +90,7 @@ public class ArticleService {
         }
     }
 
-
+    // get article by theme
     public List<Article> getArticlesByTheme(Themes theme) {
         return articleRepository.findByTheme(theme);
     }

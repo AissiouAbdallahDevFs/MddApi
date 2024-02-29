@@ -2,10 +2,14 @@ package com.openclassrooms.mddapi.service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
 import com.openclassrooms.mddapi.repository.ThemesRepository;
@@ -46,6 +50,8 @@ public class UserService {
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
+
+
 
     // service to save user
     public User saveUser(User user) {
@@ -134,37 +140,41 @@ public class UserService {
     // service to get user by token
     public User getUserByToken(String token) {
         String email = getEmailFromToken(token);
-        return getUserByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
+        User user = getUserByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
+        return user;
     }
 
-    // suscribe user to theme
-    public User suscribeToTheme(Long userId, Long themeId) {
+     // Suscrire l'utilisateur à un thème
+    public User subscribeToTheme(Long userId, Long themeId) {
+        User existingUser = userRepository.findById(userId).orElse(null);
+        Themes existingTheme = themeRepository.findById(themeId).orElse(null);
+        System.err.println("existingUser : " + existingUser);
+        System.err.println("existingTheme : " + existingTheme);
+        if (existingUser != null && existingTheme != null) {
+            existingUser.getThemes().add(existingTheme);
+        }
+        System.err.println("existingUser 2 : " + existingUser);
+        return userRepository.save(existingUser);
+    }
+
+    //Désabonner l'utilisateur d'un thème
+    public User unsubscribeFromTheme(Long userId, Long themeId) {
         User existingUser = userRepository.findById(userId).orElse(null);
         Themes existingTheme = themeRepository.findById(themeId).orElse(null);
         if (existingUser != null && existingTheme != null) {
-            existingUser.setTheme(existingTheme);
+            existingUser.getThemes().remove(existingTheme);
         }
-        User updatedRecord = userRepository.save(existingUser);
-        return updatedRecord;
+        return userRepository.save(existingUser);
     }
-    // unsubscribe user from theme
-    public User unsuscribeToTheme(Long userId, Long themeId) {
-        User existingUser = userRepository.findById(userId).orElse(null);
-        Themes existingTheme = themeRepository.findById(themeId).orElse(null);
-        if (existingUser != null && existingTheme != null) {
-            existingUser.setTheme(null);
-        }
-        User updatedRecord = userRepository.save(existingUser);
-        return updatedRecord;
-    }
-    // list of all themes for user
-    public Themes getThemeByUser(Long userId) {
+
+    // Liste de tous les thèmes de l'utilisateur
+    public Set<Themes> getThemesByUser(Long userId) {
+        
         User existingUser = userRepository.findById(userId).orElse(null);
         if (existingUser != null) {
-            return existingUser.getTheme();
+            return existingUser.getThemes();
         } else {
-            throw new NotFoundException("Enregistrement introuvable");
+            throw new NotFoundException("Utilisateur introuvable");
         }
     }
 }

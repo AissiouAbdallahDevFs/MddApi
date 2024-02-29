@@ -3,10 +3,12 @@ package com.openclassrooms.mddapi.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+
+
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,9 +28,10 @@ public class User {
 	@NotNull
 	private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "theme_id")
-	private Themes theme;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_Themes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "Themes_id"))
+	private Set<Themes> Themes;
+
 
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;

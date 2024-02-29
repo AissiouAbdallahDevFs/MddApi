@@ -3,7 +3,10 @@ package com.openclassrooms.mddapi.service;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.Themes;
+import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.ThemesRepository;
+import com.openclassrooms.mddapi.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -15,6 +18,9 @@ public class ThemesService {
 
     @Autowired
     private ThemesRepository themesRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     
 
     // get all themes
@@ -45,4 +51,6 @@ public class ThemesService {
         Themes updatedThemes = themesRepository.save(themes);
         return updatedThemes;
     }
+
+ 
 }

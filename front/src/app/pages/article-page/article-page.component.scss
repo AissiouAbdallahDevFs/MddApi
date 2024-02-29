@@ -21,13 +21,13 @@
 }
 
 .column {
-  width: calc(50% - 1%); /* 50% de la largeur avec une marge de 2% */
-  margin-bottom: 20px; /* Ajout de l'espace entre les colonnes */
+  width: calc(50% - 1%);
+  margin-bottom: 20px; 
 }
 
 @media screen and (max-width: 768px) {
   .column {
-      width: 100%; /* Sur les petits écrans, chaque article occupe toute la largeur */
+      width: 100%; 
   }
 }
 
@@ -37,8 +37,8 @@
   border-radius: 5px;
   height: 250px;
   overflow: hidden;
-  width: 100%; /* Les articles occupent toute la largeur sur les petits écrans */
-  margin-bottom: 20px; /* Espacement entre les articles */
+  width: 100%; 
+  margin-bottom: 20px; 
 }
 
 .description {

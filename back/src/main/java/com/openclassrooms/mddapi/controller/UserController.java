@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 
 import com.openclassrooms.mddapi.dto.UserLoginRequest;
 import com.openclassrooms.mddapi.model.User;
@@ -85,14 +86,9 @@ public class UserController {
     @ApiOperation(value = "Get current user", notes = "Returns the current user.")
     public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.substring(7);
-        String email = userService.getEmailFromToken(token);
-        Optional<User> user = userService.getUserByEmail(email);
+        User user = userService.getUserByToken(token);
+        return new ResponseEntity<>(user, HttpStatus.OK);
 
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     // update email and username
@@ -112,10 +108,9 @@ public class UserController {
     @PostMapping("/auth/subscribe/{themeId}")
     @ApiOperation(value = "Subscribe to a theme", notes = "Subscribe to a theme.")
     public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader , @PathVariable Long themeId) {
-        System.err.println("themeId: " + themeId);
         String token = authorizationHeader.substring(7);
         User user = userService.getUserByToken(token);
-        User updatedUser = userService.suscribeToTheme(user.getId(), themeId);
+        User updatedUser = userService.subscribeToTheme(user.getId(), themeId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         
     }
@@ -125,17 +120,15 @@ public class UserController {
     public ResponseEntity<User> unsubscribeFromTheme(@RequestHeader("Authorization") String authorizationHeader , @PathVariable Long themeId) {
         String token = authorizationHeader.substring(7);
         User user = userService.getUserByToken(token);
-        User updatedUser = userService.unsuscribeToTheme(user.getId(), themeId);
+        User updatedUser = userService.unsubscribeFromTheme(user.getId(), themeId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
-    // list of all themes suscribed by user
+    //list of user themes
     @GetMapping("/auth/themes")
-    @ApiOperation(value = "Get themes suscribed by user", notes = "Returns a list of themes suscribed by user.")
-    public ResponseEntity<Themes> getThemesSuscribedByUser(@RequestHeader("Authorization") String authorizationHeader) {
+    @ApiOperation(value = "Get user themes", notes = "Returns the themes of the current user.")
+    public ResponseEntity<Set<Themes>> getUserThemes(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.substring(7);
         User user = userService.getUserByToken(token);
-        Long userId = user.getId();
-        Themes themes = userService.getThemeByUser(userId);
-        return new ResponseEntity<>(themes, HttpStatus.OK);
+        return new ResponseEntity<>(user.getThemes(), HttpStatus.OK);
     }
 }

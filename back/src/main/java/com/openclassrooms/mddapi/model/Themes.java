@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.model;
 
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,9 +25,7 @@ public class Themes {
     
     @NotNull
     private String description;
-
-
-
+   
 
   	@Column(name = "created_at")
 	  private LocalDateTime createdAt;

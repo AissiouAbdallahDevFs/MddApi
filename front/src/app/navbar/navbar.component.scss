@@ -1,4 +1,4 @@
-/* Styles pour la barre de navigation */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -30,44 +30,42 @@
 
 .menu a {
   text-decoration: none;
-  color: black; /* Couleur du texte noir */
+  color: black;
 }
 
 .avatar img {
-  width: 50px; /* Ajuster la taille de l'avatar */
+  width: 50px; 
   height: 50px;
-  border-radius: 50%; /* Rendre l'avatar rond */
+  border-radius: 50%; 
 }
 
-/* Styles pour le bouton du menu burger */
 .burger-menu {
-  display: none; /* Masquer le menu burger par défaut */
+  display: none; 
 }
 
-/* Afficher le menu burger uniquement sur les écrans de petite taille */
 @media screen and (max-width: 768px) {
   .burger-menu {
-    display: block; /* Afficher le menu burger sur les petits écrans */
+    display: block; 
     font-size: 24px;
     background-color: transparent;
     border: none;
     cursor: pointer;
-    margin-left: auto; /* Placer le burger à droite */
+    margin-left: auto;
   }
 
   .menu {
     position: fixed;
     top: 0;
-    right: -300px; /* Le menu est initialement en dehors de la vue */
+    right: -300px; 
     width: 300px;
     height: 100%;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease; /* Animation de transition */
+    transition: right 0.3s ease; 
   }
 
   .menu.active {
-    right: 0; /* Déplacer le menu vers la gauche lorsque activé */
+    right: 0; 
   }
 
   .menu ul {
