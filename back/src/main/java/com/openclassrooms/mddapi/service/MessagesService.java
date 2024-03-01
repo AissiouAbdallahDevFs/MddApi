@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.Messages;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.dto.PostMessagesDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -37,10 +38,14 @@ public class MessagesService {
     }
 
     // get message by article_id
-    public Optional<Messages> getMessageByArticleId(Long ArticleId) {
+    public Optional<PostMessagesDto> getMessageByArticleId(Long ArticleId) {
         Article article = articleService.getArticleById(ArticleId).orElse(null);    
         Set<Messages> message = article.getMessages();
-        return message.stream().findFirst();
+        PostMessagesDto postMessagesDto = new PostMessagesDto();
+        postMessagesDto.setMessage(message.stream().findFirst().get().getMessage());
+        postMessagesDto.setArticle_id(ArticleId);
+        postMessagesDto.setUser_id(message.stream().findFirst().get().getUser().getId());
+        return Optional.of(postMessagesDto);
     }
 
     // save message

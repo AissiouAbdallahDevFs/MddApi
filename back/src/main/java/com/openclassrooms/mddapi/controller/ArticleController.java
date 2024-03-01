@@ -12,8 +12,13 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.openclassrooms.mddapi.dto.ArticleMessagesDTO;
 import com.openclassrooms.mddapi.dto.ArticleRequestDto;
+import com.openclassrooms.mddapi.dto.ArticleWithMessagesDTO;
+import com.openclassrooms.mddapi.dto.MessageDTO;
+import com.openclassrooms.mddapi.dto.PostMessagesDto;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
@@ -45,55 +50,102 @@ public class ArticleController {
 
     // get all articles
     @GetMapping("/articles")
-    @ApiOperation(value = "Get all articles", notes = "Returns a list of all Articles.")
-    public Map<String, List<Article>> getArticle() {
-        List<Article> articleList = (List<Article>) articleService.getArticle();
-        Map<String, List<Article>> response = new HashMap<String, List<Article>>();
-        response.put("articles", articleList);
-        return response;
+    @ApiOperation(value = "Get All Articles", notes = "Returns all Articles.")
+    public ResponseEntity<Iterable<ArticleMessagesDTO>> getArticles() {
+        Iterable<ArticleMessagesDTO> articles = articleService.getArticles();
+
+        if (articles != null) {
+            
+            return new ResponseEntity<>(articles, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-    
     // get article by id
     @GetMapping("articles/{id}")
     @ApiOperation(value = "Get Article by ID", notes = "Returns a Article by its ID.")
-    public ResponseEntity<Article> getRentalById(@PathVariable Long id) {
-        Optional<Article> article = articleService.getArticleById(id);
+    public ResponseEntity<ArticleWithMessagesDTO> getArticleById(@PathVariable Long id) {
+        Optional<Article> articleOptional = articleService.getArticleById(id);
 
-        if (article.isPresent()) {
-            return new ResponseEntity<>(article.get(), HttpStatus.OK);
+        if (articleOptional.isPresent()) {
+            Article article = articleOptional.get();
+            ArticleWithMessagesDTO articleWithMessagesDTO = new ArticleWithMessagesDTO();
+            articleWithMessagesDTO.setId(article.getId());
+            articleWithMessagesDTO.setTitle(article.getTitle());
+            articleWithMessagesDTO.setDescription(article.getDescription());
+
+            List<MessageDTO> messageDTOs = article.getMessages().stream()
+                    .map(message -> {
+                        MessageDTO messageDTO = new MessageDTO();
+                        messageDTO.setId(message.getId());
+                        messageDTO.setUserUsername(message.getUser().getUsername());
+                        messageDTO.setMessage(message.getMessage());
+                        return messageDTO;
+                    })
+                    .collect(Collectors.toList());
+
+            articleWithMessagesDTO.setMessages(messageDTOs);
+
+            return new ResponseEntity<>(articleWithMessagesDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     // get message by article_id
     @GetMapping("/articles/{articleId}/messages")
-    public ResponseEntity<Messages> getMessageByArticleId(@PathVariable Long articleId) {
-        Optional<Messages> message = messagesService.getMessageByArticleId(articleId);
-        if (message.isPresent()) {
-            return new ResponseEntity<>(message.get(), HttpStatus.OK);
+    public ResponseEntity<ArticleWithMessagesDTO> getMessageByArticleId(@PathVariable Long articleId) {
+        Optional<Article> articleOptional = articleService.getArticleById(articleId);
+
+        if (articleOptional.isPresent()) {
+            Article article = articleOptional.get();
+            ArticleWithMessagesDTO articleWithMessagesDTO = new ArticleWithMessagesDTO();
+            articleWithMessagesDTO.setId(article.getId());
+            articleWithMessagesDTO.setTitle(article.getTitle());
+            articleWithMessagesDTO.setDescription(article.getDescription());
+            List<MessageDTO> messageDTOs = article.getMessages().stream()
+            .map(message -> {
+                MessageDTO messageDTO = new MessageDTO();
+                messageDTO.setId(message.getId());
+                messageDTO.setUserUsername(message.getUser().getUsername());
+                messageDTO.setMessage(message.getMessage());
+                return messageDTO;
+            })
+            .collect(Collectors.toList());
+
+            articleWithMessagesDTO.setMessages(messageDTOs);
+
+            return new ResponseEntity<>(articleWithMessagesDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+        }
+    
 
     // post message by article_id
     @PostMapping("/articles/{articleId}/messages")
-    public ResponseEntity<Messages> saveMessages(@RequestHeader("Authorization") String authorizationHeader,
+    public ResponseEntity<PostMessagesDto> saveMessages(@RequestHeader("Authorization") String authorizationHeader,
                                                 @PathVariable Long articleId, 
                                                 @RequestParam String message) {
-                    
         String token = authorizationHeader.substring("Bearer ".length()).trim();
         User user = userService.getUserByToken(token);
         Article article = articleService.getArticleById(articleId).get();
+        System.err.println("article: " + article);
         Messages newMessage = new Messages();
         newMessage.setUser(user);
-        newMessage.setArticle(article);
         newMessage.setMessage(message);
-        Messages savedMessage = messagesService.saveMessage(newMessage);
-        article.getMessages().add(savedMessage);
-        if (savedMessage != null) {
-            return new ResponseEntity<>(savedMessage, HttpStatus.OK);
+        article.getMessages();
+        article.getMessages().add(newMessage);
+        articleService.saveArticles(article);
+        PostMessagesDto postMessagesDto = new PostMessagesDto();
+        postMessagesDto.setMessage(message);
+        postMessagesDto.setArticle_id(article.getId());
+        postMessagesDto.setUser_id(user.getId());
+        
+                                                
+        if (newMessage != null) {
+            return new ResponseEntity<>(postMessagesDto, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

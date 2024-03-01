@@ -28,9 +28,10 @@ public class Article {
     @NotNull
 	private String description;
 	 
-	@OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Messages> messages = new HashSet<>();
 
+	@ManyToMany(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
+	@JoinTable(name = "artcile_Messages", joinColumns = @JoinColumn(name = "Article_id"), inverseJoinColumns = @JoinColumn(name = "Messages_id"))
+	private Set<Messages> messages;
 
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", referencedColumnName = "id")

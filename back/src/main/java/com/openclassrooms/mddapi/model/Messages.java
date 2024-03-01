@@ -5,8 +5,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.lang.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
@@ -29,9 +27,6 @@ public class Messages {
     private User user;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "article_id")
-    private Article article;
 
     @Size(max = 5000)
     @NotNull

@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import com.openclassrooms.mddapi.dto.UserLoginRequest;
+import com.openclassrooms.mddapi.dto.UserProfileDTO;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
 import com.openclassrooms.mddapi.service.UserService;
@@ -84,24 +86,35 @@ public class UserController {
     // get current user
     @GetMapping("/auth/me")
     @ApiOperation(value = "Get current user", notes = "Returns the current user.")
-    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<UserProfileDTO> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.substring(7);
         User user = userService.getUserByToken(token);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setEmail(user.getEmail());
+        userProfileDTO.setUsername(user.getUsername());
+        List<Themes> themes = user.getThemes().stream()
+                .toList();
+        userProfileDTO.setThemes(themes);
+        return new ResponseEntity<>(userProfileDTO, HttpStatus.OK);
     }
 
     // update email and username
     @PutMapping("/auth/me")
     @ApiOperation(value = "Update email and username", notes = "Updates the email and username of the current user.")
-    public ResponseEntity<User> updateUser(@RequestHeader("Authorization") String authorizationHeader, @RequestBody User updatedUser) {
+    public ResponseEntity<UserProfileDTO> updateUser(@RequestHeader("Authorization") String authorizationHeader, @RequestBody User updatedUser) {
         String token = authorizationHeader.substring(7);
         String email = userService.getEmailFromToken(token);
         User user = userService.getUserByEmail(email).get();
         user.setEmail(updatedUser.getEmail());
         user.setUsername(updatedUser.getUsername());
         User updatedRecord = userService.updateUser(user);
-        return new ResponseEntity<>(updatedRecord, HttpStatus.OK);
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setEmail(updatedRecord.getEmail());
+        userProfileDTO.setUsername(updatedRecord.getUsername());
+        List<Themes> themes = user.getThemes().stream()
+                .toList();
+        userProfileDTO.setThemes(themes);
+        return new ResponseEntity<>(userProfileDTO, HttpStatus.OK);
     }
 
     // suscribe to a theme
@@ -120,8 +133,8 @@ public class UserController {
     public ResponseEntity<User> unsubscribeFromTheme(@RequestHeader("Authorization") String authorizationHeader , @PathVariable Long themeId) {
         String token = authorizationHeader.substring(7);
         User user = userService.getUserByToken(token);
-        User updatedUser = userService.unsubscribeFromTheme(user.getId(), themeId);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        userService.unsubscribeFromTheme(user.getId(), themeId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     //list of user themes
     @GetMapping("/auth/themes")
