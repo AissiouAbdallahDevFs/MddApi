@@ -24,10 +24,13 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/article']);
           } else {
             console.error('Erreur lors de la connexion :', response);
+             
           }
         }, 
         (error) => {
           console.error('Erreur lors de la connexion :', error);
+          alert(error.error);
+          location.reload();
         }
       );
   }

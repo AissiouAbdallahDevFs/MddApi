@@ -19,6 +19,7 @@ import com.openclassrooms.mddapi.dto.ArticleRequestDto;
 import com.openclassrooms.mddapi.dto.ArticleWithMessagesDTO;
 import com.openclassrooms.mddapi.dto.MessageDTO;
 import com.openclassrooms.mddapi.dto.PostMessagesDto;
+import com.openclassrooms.mddapi.dto.RequestMessagesDTO;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
@@ -73,6 +74,10 @@ public class ArticleController {
             articleWithMessagesDTO.setId(article.getId());
             articleWithMessagesDTO.setTitle(article.getTitle());
             articleWithMessagesDTO.setDescription(article.getDescription());
+            articleWithMessagesDTO.setThemes(article.getTheme());
+            articleWithMessagesDTO.setUsername(article.getAuthor().getUsername());
+            articleWithMessagesDTO.setCreated_at(article.getCreatedAt().toString());
+            
 
             List<MessageDTO> messageDTOs = article.getMessages().stream()
                     .map(message -> {
@@ -127,19 +132,19 @@ public class ArticleController {
     @PostMapping("/articles/{articleId}/messages")
     public ResponseEntity<PostMessagesDto> saveMessages(@RequestHeader("Authorization") String authorizationHeader,
                                                 @PathVariable Long articleId, 
-                                                @RequestParam String message) {
+                                                @RequestBody RequestMessagesDTO message) {
         String token = authorizationHeader.substring("Bearer ".length()).trim();
         User user = userService.getUserByToken(token);
         Article article = articleService.getArticleById(articleId).get();
         System.err.println("article: " + article);
         Messages newMessage = new Messages();
         newMessage.setUser(user);
-        newMessage.setMessage(message);
+        newMessage.setMessage(message.getMessage());
         article.getMessages();
         article.getMessages().add(newMessage);
         articleService.saveArticles(article);
         PostMessagesDto postMessagesDto = new PostMessagesDto();
-        postMessagesDto.setMessage(message);
+        postMessagesDto.setMessage(message.getMessage());
         postMessagesDto.setArticle_id(article.getId());
         postMessagesDto.setUser_id(user.getId());
         

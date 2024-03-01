@@ -7,7 +7,7 @@ import lombok.Data;
 public class ArticleMessagesDTO {
     
     private Long articleId;
-    private Long userId;
+    private String username;
     private String title;
     private String description;
     private List<MessageDTO> messages;

@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class ArticlePageComponent implements OnInit {
   articles: any[] = [];
-  indexArray: number[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -17,20 +16,20 @@ export class ArticlePageComponent implements OnInit {
     this.fetchArticles();
   }
 
-  redirectToCreateArticle() {
+  redirectToCreateArticle(): void {
     this.router.navigate(['/article/add']);
   }
 
   fetchArticles(): void {
-    this.http.get<any>('http://localhost:8080/api/articles')
-      .subscribe((response) => {
-        this.articles = response.articles;
-        for (let i = 0; i < this.articles.length / 2; i++) {
-          this.indexArray.push(i);
+    this.http.get<any[]>('http://localhost:8080/api/articles')
+      .subscribe(
+        (response) => {
+          this.articles = response;
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des articles :', error);
         }
-      }, (error) => {
-        console.error('Erreur lors de la récupération des articles :', error);
-      });
+      );
   }
 
   redirectToArticleDetail(id: number): void {

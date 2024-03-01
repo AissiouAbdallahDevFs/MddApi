@@ -25,7 +25,7 @@ export class AuthService {
 
   setToken(token: string | null): void {
     this.token = token;
-    localStorage.setItem('token', token || '');
+    localStorage.setItem('token', token as string);
   }
 
   getToken(): string | null {

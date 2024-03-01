@@ -35,7 +35,8 @@ import { ArticleIdPageComponent } from './pages/article-id-page/article-id-page.
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    
   ],
   providers: [
     AuthService,
