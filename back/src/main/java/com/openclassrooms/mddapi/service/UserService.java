@@ -51,8 +51,6 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-
-
     // service to save user
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -144,7 +142,7 @@ public class UserService {
         return user;
     }
 
-     // Suscrire l'utilisateur à un thème
+    // Suscrire l'utilisateur à un thème
     public User subscribeToTheme(Long userId, Long themeId) {
         User existingUser = userRepository.findById(userId).orElse(null);
         Themes existingTheme = themeRepository.findById(themeId).orElse(null);
@@ -157,7 +155,7 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-    //Désabonner l'utilisateur d'un thème
+    // Désabonner l'utilisateur d'un thème
     public User unsubscribeFromTheme(Long userId, Long themeId) {
         User existingUser = userRepository.findById(userId).orElse(null);
         Themes existingTheme = themeRepository.findById(themeId).orElse(null);
@@ -169,7 +167,7 @@ public class UserService {
 
     // Liste de tous les thèmes de l'utilisateur
     public Set<Themes> getThemesByUser(Long userId) {
-        
+
         User existingUser = userRepository.findById(userId).orElse(null);
         if (existingUser != null) {
             return existingUser.getThemes();

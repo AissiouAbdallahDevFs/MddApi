@@ -3,7 +3,7 @@ package com.openclassrooms.mddapi.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
+import org.hibernate.validator.constraints.UniqueElements;
 
 import lombok.Data;
 

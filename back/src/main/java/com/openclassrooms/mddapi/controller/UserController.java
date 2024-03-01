@@ -52,13 +52,13 @@ public class UserController {
     @PostMapping("auth/register")
     @ApiOperation(value = "Create a new user", notes = "Creates a new user.")
     public ResponseEntity<String> createUser(@RequestBody User user) {
-        User savedUser = userService.saveUser(user);
-        if (savedUser != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        User existingUser = userService.getUserByEmail(user.getEmail()).orElse(null);
+        if (existingUser != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+        }else{
+            userService.saveUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
         }
-
     }
 
     // authenticate user
@@ -66,7 +66,6 @@ public class UserController {
     @ApiOperation(value = "Authenticate user", notes = "Authenticate a user and return a JWT token.")
     public ResponseEntity<String> authenticateUser(@RequestBody UserLoginRequest loginRequest) {
         String token = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
-
         if (token != null) {
             HashMap<String, String> response = new HashMap<>();
             response.put("token", token);
