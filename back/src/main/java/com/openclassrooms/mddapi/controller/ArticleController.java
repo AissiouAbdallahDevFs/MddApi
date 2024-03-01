@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -16,7 +17,9 @@ import com.openclassrooms.mddapi.dto.ArticleRequestDto;
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.Themes;
+import com.openclassrooms.mddapi.model.Messages;
 import com.openclassrooms.mddapi.service.ArticleService;
+import com.openclassrooms.mddapi.service.MessagesService;
 import com.openclassrooms.mddapi.service.ThemesService;
 import com.openclassrooms.mddapi.service.UserService;
 
@@ -33,6 +36,9 @@ public class ArticleController {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessagesService messagesService;
 
     @Autowired
     private ThemesService themesService;
@@ -60,6 +66,39 @@ public class ArticleController {
         }
     }
 
+    // get message by article_id
+    @GetMapping("/articles/{articleId}/messages")
+    public ResponseEntity<Messages> getMessageByArticleId(@PathVariable Long articleId) {
+        Optional<Messages> message = messagesService.getMessageByArticleId(articleId);
+        if (message.isPresent()) {
+            return new ResponseEntity<>(message.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // post message by article_id
+    @PostMapping("/articles/{articleId}/messages")
+    public ResponseEntity<Messages> saveMessages(@RequestHeader("Authorization") String authorizationHeader,
+                                                @PathVariable Long articleId, 
+                                                @RequestParam String message) {
+                    
+        String token = authorizationHeader.substring("Bearer ".length()).trim();
+        User user = userService.getUserByToken(token);
+        Article article = articleService.getArticleById(articleId).get();
+        Messages newMessage = new Messages();
+        newMessage.setUser(user);
+        newMessage.setArticle(article);
+        newMessage.setMessage(message);
+        Messages savedMessage = messagesService.saveMessage(newMessage);
+        article.getMessages().add(savedMessage);
+        if (savedMessage != null) {
+            return new ResponseEntity<>(savedMessage, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+                                                    
+    }
 
     // save article
     @PostMapping(value = "/articles")

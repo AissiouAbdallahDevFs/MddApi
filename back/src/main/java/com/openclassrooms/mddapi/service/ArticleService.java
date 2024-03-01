@@ -11,10 +11,6 @@ import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.Themes;
 import  com.openclassrooms.mddapi.repository.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -24,9 +20,6 @@ public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
-
-    @Autowired
-    private ThemesService themeService;
 
 
 
