@@ -38,13 +38,13 @@ export class ProfilePageComponent implements OnInit {
     const headers = { 'Access-Control-Allow-Origin': '*' };
     this.http.delete(`/api/auth/unsubscribe/${themeId}`, { headers }).subscribe((data: any) => {
       this.userThemes = this.userThemes.filter((theme) => theme.id !== themeId);
-      this.openSnackBar('Désabonnement réussi !', ''); 
+      this.openSnackBar('Désabonnement réussi !', 'Fermer'); 
     });
   }
 
   saveChanges() {
     this.http.put('/api/auth/me', this.updatedUser).subscribe((data: any) => {
-      this.openSnackBar('Modifications enregistrées avec succès !', ''); 
+      this.openSnackBar('Modifications enregistrées avec succès !', 'Fermer'); 
     });
   }
 

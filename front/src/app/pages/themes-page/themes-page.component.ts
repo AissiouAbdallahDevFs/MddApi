@@ -35,7 +35,7 @@ export class ThemesPageComponent implements OnInit {
     this.http.post<any>('/api/auth/subscribe/' + themeId, {})
       .subscribe(response => {
         console.log('Souscrit avec succès au thème avec l\'ID', themeId);
-        this.openSnackBar('Souscrit avec succès au thème !', '');
+        this.openSnackBar('Souscrit avec succès au thème !', 'Fermer');
         
       });
   }
