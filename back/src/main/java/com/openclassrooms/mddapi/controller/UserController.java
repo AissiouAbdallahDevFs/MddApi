@@ -132,6 +132,7 @@ public class UserController {
     public ResponseEntity<User> unsubscribeFromTheme(@RequestHeader("Authorization") String authorizationHeader , @PathVariable Long themeId) {
         String token = authorizationHeader.substring(7);
         User user = userService.getUserByToken(token);
+        System.err.println("user: " + user.getId() + " theme: " + themeId);
         userService.unsubscribeFromTheme(user.getId(), themeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -24,7 +24,7 @@ export class CreateArticleComponent implements OnInit {
   }
 
   fetchThemes() {
-    this.http.get<any>('http://localhost:8080/api/themes')
+    this.http.get<any>('/api/themes')
       .subscribe(
         (response: any) => {
           this.themes = response.themes; 
@@ -46,7 +46,7 @@ export class CreateArticleComponent implements OnInit {
         theme: this.articleForm.get('theme')?.value
       };
 
-      this.http.post<any>('http://localhost:8080/api/articles', articleData)
+      this.http.post<any>('/api/articles', articleData)
         .subscribe(
           (response: any) => {
             console.log('Article créé avec succès:', response);

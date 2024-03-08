@@ -21,7 +21,7 @@ export class ArticlePageComponent implements OnInit {
   }
 
   fetchArticles(): void {
-    this.http.get<any[]>('http://localhost:8080/api/articles')
+    this.http.get<any[]>('/api/articles')
       .subscribe(
         (response) => {
           this.articles = response;

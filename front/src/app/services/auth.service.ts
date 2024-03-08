@@ -6,7 +6,7 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = '/api/auth';
   private token: string | null = localStorage.getItem('token');
 
   constructor(private http: HttpClient) {}
@@ -43,6 +43,7 @@ export class AuthService {
 
     if (this.token) {
       headersConfig['Authorization'] = `Bearer ${this.token}`;
+      headersConfig['Access-Control-Allow-Origin'] = '*';
     }
 
     return new HttpHeaders(headersConfig);
