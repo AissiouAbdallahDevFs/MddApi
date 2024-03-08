@@ -17,6 +17,7 @@ export class AuthService {
         map(response => {
           if (response && response.token) {
             this.setToken(response.token);
+          
           }
           return response;
         })

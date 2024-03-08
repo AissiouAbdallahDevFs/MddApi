@@ -59,9 +59,11 @@
     right: -300px; 
     width: 300px;
     height: 100%;
+    z-index: 1000;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: right 0.3s ease; 
+    display: block;
   }
 
   .menu.active {
@@ -70,9 +72,20 @@
 
   .menu ul {
     flex-direction: column;
+    padding: 20px; 
   }
 
   .menu li {
     margin: 10px 0;
+  }
+
+  .avatar {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .top-right {
+    text-align: right; 
   }
 }

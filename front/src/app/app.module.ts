@@ -21,6 +21,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { ArticleIdPageComponent } from './pages/article-id-page/article-id-page.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, ArticlePageComponent, NavbarComponent, CreateArticleComponent, ThemesPageComponent, ProfilePageComponent, ArticleIdPageComponent],
@@ -36,6 +40,9 @@ import { ArticleIdPageComponent } from './pages/article-id-page/article-id-page.
     MatToolbarModule,
     MatIconModule,
     MatListModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatSnackBarModule
     
   ],
   providers: [

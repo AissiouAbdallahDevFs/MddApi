@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,7 +14,7 @@ export class ProfilePageComponent implements OnInit {
   userThemes: any[] = []; 
   updatedUser: any = { username: '', email: '' }; 
 
-  constructor(private http: HttpClient, private router: Router, private authService:AuthService) { }
+  constructor(private http: HttpClient, private router: Router, private authService:AuthService,private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.http.get('/api/auth/me').subscribe((data: any) => {
@@ -36,13 +37,20 @@ export class ProfilePageComponent implements OnInit {
   unSubscribeTheme(themeId: number) {
     const headers = { 'Access-Control-Allow-Origin': '*' };
     this.http.delete(`/api/auth/unsubscribe/${themeId}`, { headers }).subscribe((data: any) => {
-      console.log('Désabonnement réussi !');
       this.userThemes = this.userThemes.filter((theme) => theme.id !== themeId);
+      this.openSnackBar('Désabonnement réussi !', ''); 
     });
   }
+
   saveChanges() {
     this.http.put('/api/auth/me', this.updatedUser).subscribe((data: any) => {
-      console.log('Modifications enregistrées avec succès !');
+      this.openSnackBar('Modifications enregistrées avec succès !', ''); 
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
     });
   }
 }

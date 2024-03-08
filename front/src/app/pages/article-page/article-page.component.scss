@@ -1,10 +1,28 @@
 .container {
   padding: 2%;
+  position: relative;
+}
+
+
+.button-container {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
 }
 
 .putArticleBtn {
   margin-bottom: 20px;
-  margin-top: 20px;
+}
+
+.sortBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  position: relative;
 }
 
 .article-container {
@@ -22,12 +40,12 @@
 
 .column {
   width: calc(50% - 1%);
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 768px) {
   .column {
-      width: 100%; 
+    width: 100%;
   }
 }
 
@@ -37,8 +55,8 @@
   border-radius: 5px;
   height: 250px;
   overflow: hidden;
-  width: 100%; 
-  margin-bottom: 20px; 
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .description {
