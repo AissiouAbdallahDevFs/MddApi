@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +27,6 @@ import com.openclassrooms.mddapi.service.MessagesService;
 import com.openclassrooms.mddapi.service.ThemesService;
 import com.openclassrooms.mddapi.service.UserService;
 
-import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -43,8 +40,6 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MessagesService messagesService;
 
     @Autowired
     private ThemesService themesService;
