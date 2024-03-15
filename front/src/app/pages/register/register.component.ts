@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -26,7 +28,6 @@ export class RegisterComponent implements OnInit {
         }, 
         (error) => {
           console.error('Erreur lors de l\'inscription :', error);
-          alert(error.error);
           location.reload();
         }
       );
