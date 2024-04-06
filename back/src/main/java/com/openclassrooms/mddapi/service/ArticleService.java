@@ -65,8 +65,7 @@ public class ArticleService {
     // save article
     public Article saveArticles(Article articles) {
         articles.setCreatedAt(java.time.LocalDateTime.now());
-        Article savedRentals = articleRepository.save(articles);
-        return savedRentals;
+        return articleRepository.save(articles);
     }
     // update article
     public Article updateArticles(Article updatedRentals) {

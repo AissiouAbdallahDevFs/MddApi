@@ -55,8 +55,7 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setCreatedAt(java.time.LocalDateTime.now());
-        User savedUser = userRepository.save(user);
-        return savedUser;
+        return userRepository.save(user);
     }
 
     // service to delete user
@@ -87,8 +86,7 @@ public class UserService {
         if (existingUser != null) {
             existingUser.setUsername(updatedUser.getUsername());
             existingUser.setEmail(updatedUser.getEmail());
-            User updatedRecord = userRepository.save(existingUser);
-            return updatedRecord;
+            return userRepository.save(existingUser);
         } else {
             throw new NotFoundException("Enregistrement introuvable");
         }

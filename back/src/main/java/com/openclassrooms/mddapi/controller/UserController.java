@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.openclassrooms.mddapi.dto.UserLoginRequest;
 import com.openclassrooms.mddapi.dto.UserProfileDTO;
 import com.openclassrooms.mddapi.model.User;
@@ -52,10 +55,16 @@ public class UserController {
     @PostMapping("auth/register")
     @ApiOperation(value = "Create a new user", notes = "Creates a new user.")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+        String emailRegex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(user.getEmail());
+        if (!matcher.matches()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email format");
+        }
         User existingUser = userService.getUserByEmail(user.getEmail()).orElse(null);
         if (existingUser != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
-        }else{
+        } else {
             userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
         }
@@ -65,6 +74,7 @@ public class UserController {
     @PostMapping("auth/login")
     @ApiOperation(value = "Authenticate user", notes = "Authenticate a user and return a JWT token.")
     public ResponseEntity<String> authenticateUser(@RequestBody UserLoginRequest loginRequest) {
+        System.err.println(loginRequest);
         String token = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         if (token != null) {
             HashMap<String, String> response = new HashMap<>();
