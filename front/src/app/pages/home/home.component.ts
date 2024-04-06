@@ -11,11 +11,11 @@ export class HomeComponent implements OnInit {
   
 
   ngOnInit(): void {}
-  redirectToLogin() {
+  redirectToLogin(): void  {
     this.router.navigate(['/login']);
   }
 
-  redirectToRegister() {
+  redirectToRegister(): void  {
     this.router.navigate(['/register']);
   }
 }

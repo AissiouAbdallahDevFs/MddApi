@@ -51,8 +51,7 @@ public class MessagesService {
     // save message
     public Messages saveMessage(Messages message) {
         message.setCreatedAt(LocalDateTime.now());
-        Messages savedMessage = messagesRepository.save(message);
-        return savedMessage;
+        return messagesRepository.save(message);
     }
     
     

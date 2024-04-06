@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ArticlePage } from 'src/app/interfaces/article.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-article-page',
   templateUrl: './article-page.component.html',
   styleUrls: ['./article-page.component.scss']
 })
-export class ArticlePageComponent implements OnInit {
-  articles: any[] = [];
+export class ArticlePageComponent implements OnInit, OnDestroy {
+  articles: ArticlePage[] = [];
+  private articlesSubscription: Subscription | undefined;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -16,12 +19,18 @@ export class ArticlePageComponent implements OnInit {
     this.fetchArticles();
   }
 
+  ngOnDestroy(): void {
+    if (this.articlesSubscription) {
+      this.articlesSubscription.unsubscribe();
+    }
+  }
+
   redirectToCreateArticle(): void {
     this.router.navigate(['/article/add']);
   }
 
   fetchArticles(): void {
-    this.http.get<any[]>('/api/articles')
+    this.articlesSubscription = this.http.get<ArticlePage[]>('/api/articles')
       .subscribe(
         (response) => {
           this.articles = response;

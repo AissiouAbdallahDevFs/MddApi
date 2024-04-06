@@ -13,8 +13,7 @@ public class ThemesService {
 
     // get all themes
     public Iterable<Themes> getThemes() {
-        Iterable<Themes> themes = themesRepository.findAll();
-        return themes;
+        return themesRepository.findAll();
     }
 
     // get themes by id
@@ -25,8 +24,8 @@ public class ThemesService {
 
     // save themes
     public Themes saveThemes(Themes themes) {
-        Themes savedThemes = themesRepository.save(themes);
-        return savedThemes;
+      
+        return  themesRepository.save(themes);
     }
 
     // delete themes
@@ -36,8 +35,7 @@ public class ThemesService {
 
     // update themes
     public Themes updateThemes(Themes themes) {
-        Themes updatedThemes = themesRepository.save(themes);
-        return updatedThemes;
+        return themesRepository.save(themes);
     }
 
 }
